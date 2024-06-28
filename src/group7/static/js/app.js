@@ -240,27 +240,6 @@ document.addEventListener("DOMContentLoaded", function () {
     
 
 
-    // window.showWordle = function () {
-    //     document.getElementById("home").style.display = "none";
-    //     document.getElementById("wordle").style.display = "block";
-
-    //     renderWordleTable();
-    //     renderWordleKeyboard();
-
-    //     fetch("/group7/nwl")
-    //         .then((response) => {
-    //             if (!response.ok) {
-    //                 throw new Error(`HTTP error! status: ${response.status}`);
-    //             }
-    //             return response.json();
-    //         })
-    //         .then((data) => {
-    //             gameId = data;
-    //         })
-    //         .catch((error) => {
-    //             console.error("Error fetching data:", error);
-    //         });
-    // };
 
 
 
