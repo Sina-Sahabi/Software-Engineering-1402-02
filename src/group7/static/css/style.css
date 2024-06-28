@@ -20,8 +20,10 @@ body {
 }
 
 .box {
-    scale: 1.5;
     width: 700px;
+    scale: 0.9;
+    position: relative;
+    top: 20px;
     margin: auto;
     padding: 20px;
     background-color: #D4BBFC;
@@ -38,8 +40,12 @@ body {
 
 .grid-container {
     display: grid;
+    justify-content: center;
     gap: 20px;
+    
 }
+
+
 
 .grid-item {
     text-align: center;
@@ -99,7 +105,7 @@ body {
 
 .wordle {
     text-align: center;
-    margin-top: 40px;
+    margin-top: 60px;
     scale: 1.3;
 }
 

@@ -5,14 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learning Through Gaming</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <script src="{% static 'js/app.js' %}" defer></script>
 </head>
 <body>
     <div id="navbar"></div>
     <div id="main-content">
         <div id="home"></div>
-        <div id="wordle" style="display:none;"></div>
+        <div id="wordle" style="display:none;">
+            <span class="image-src" style="background-image: url('images/Wordle_logo.svg.png');"></span>
+        </div>
+        <div id="hangman" style="display:none;"></div>
     </div>
 </body>
 </html>
