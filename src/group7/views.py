@@ -20,4 +20,21 @@ def newWordel(request):
     return HttpResponse(str(WordelGameSession.objects.count()))
 
 def wordelPlay(request):
-    
+    id = int(request.POST.get('id'))
+    guess = request.POST.get('guess')
+    answer = WordelGameSession.objects.filter(id=id).values()
+    result = ["x", "x", "x", "x", "x"]
+
+    for i in range(0, 5):
+        if guess[i] == answer[i]:
+            result[i] = "correct"
+        else:
+            result[i] = "notIn"
+
+    for i in range(0, 5):
+        for j in range(0, 5):
+            if result[j] != "correct":
+                if answer[i] == guess[j]:
+                    result[j] = "present"
+                    break
+    return HttpResponse(result)
