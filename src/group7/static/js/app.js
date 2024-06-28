@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                 </div>
                 <div class="grid-item">
-                    <div class="image-button">
+                    <div class="image-button" onclick="showHangman()>
                         <span class="image-src" ></span>
                         <span class="image-backdrop"></span>
                         <span class="image">
@@ -49,9 +49,28 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
     `;
 
-    window.showWordle = function() {
+    const gameId = null;
+
+    window.showWordle = function () {
         document.getElementById("home").style.display = "none";
         document.getElementById("wordle").style.display = "block";
+
+        renderWordleTable();
+        renderWordleKeyboard();
+
+        fetch("/group7/nwl")
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then((data) => {
+                gameId = data;
+            })
+            .catch((error) => {
+                console.error("Error fetching data:", error);
+            });
     };
 
     const wordleDiv = document.getElementById("wordle");
@@ -65,10 +84,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const WORD_LENGTH = 5;
     const MAX_ATTEMPTS = 6;
-    const initialKeyboard = "QWERTYUIOPASDFGHJKLZXCVBNM".split("").reduce((acc, letter) => {
-        acc[letter] = colors.wordleDefault;
-        return acc;
-    }, {});
+
+
+    const initialKeyboard = "QWERTYUIOPASDFGHJKLZXCVBNM"
+        .split("")
+        .reduce((acc, letter) => {
+            acc[letter] = colors.wordleDefault;
+            return acc;
+        }, {});
 
     let guesses = Array(MAX_ATTEMPTS).fill("");
     let currentGuess = "";
@@ -92,38 +115,77 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function handleSubmit() {
         if (currentGuess.length === WORD_LENGTH) {
-            const result = ["correct", "present", "notIn", "notIn", "notIn"];
-            resultMap[attempt] = result;
-
-            result.forEach((status, index) => {
-                const letter = currentGuess[index];
-                if (status === "correct") {
-                    keyboard[letter] = colors.green;
-                } else if (status === "present") {
-                    keyboard[letter] = colors.yellow;
-                } else if (status === "notIn") {
-                    keyboard[letter] = colors.gray;
-                }
-            });
-
-            attempt++;
-            currentGuess = "";
-            renderWordleTable();
-            renderWordleKeyboard();
+            const data = {
+                id: gameId,
+                guess: currentGuess,
+            };
+            const fetchOptions = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            };
+            fetch("/group7/wlplay", fetchOptions)
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(
+                            `HTTP error! Status: ${response.status}`
+                        );
+                    }
+                    return response.json(); // Assuming the API returns JSON
+                })
+                .then((data) => {
+                    // Handle API response if needed
+                    console.log("API response:", data);
+                })
+                .catch((error) => {
+                    console.error("Error sending data to API:", error);
+                });
         }
+
+        const result = ["correct", "present", "notIn", "notIn", "notIn"];
+        resultMap[attempt] = result;
+
+        result.forEach((status, index) => {
+            const letter = currentGuess[index];
+            if (status === "correct") {
+                keyboard[letter] = colors.green;
+            } else if (status === "present") {
+                keyboard[letter] = colors.yellow;
+            } else if (status === "notIn") {
+                keyboard[letter] = colors.gray;
+            }
+        });
+
+        attempt++;
+        currentGuess = "";
+        renderWordleTable();
+        renderWordleKeyboard();
     }
 
     function renderWordleTable() {
         const wordleTable = document.getElementById("wordle-table");
-        wordleTable.innerHTML = guesses.map((guess, index) => `
+        wordleTable.innerHTML = guesses
+            .map(
+                (guess, index) => `
             <div class="wordle-row">
-                ${Array.from({ length: WORD_LENGTH }).map((_, i) => `
-                    <div class="wordle-cell" style="background-color: ${getColor(index, i)}">
+                ${Array.from({ length: WORD_LENGTH })
+                    .map(
+                        (_, i) => `
+                    <div class="wordle-cell" style="background-color: ${getColor(
+                        index,
+                        i
+                    )}">
                         ${guess[i] ? guess[i] : ""}
                     </div>
-                `).join('')}
+                `
+                    )
+                    .join("")}
             </div>
-        `).join('');
+        `
+            )
+            .join("");
     }
 
     function getColor(row, col) {
@@ -139,20 +201,17 @@ document.addEventListener("DOMContentLoaded", function () {
     function renderWordleKeyboard() {
         const wordleKeyboard = document.getElementById("wordle-keyboard");
         wordleKeyboard.innerHTML = "";
-        const keyboardLayout = [
-            "QWERTYUIOP",
-            "ASDFGHJKL",
-            "ZXCVBNM",
-        ];
+        const keyboardLayout = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
 
-        keyboardLayout.forEach(row => {
+        keyboardLayout.forEach((row) => {
             const rowDiv = document.createElement("div");
             rowDiv.className = "keyboard-row";
-            row.split("").forEach(key => {
+            row.split("").forEach((key) => {
                 const button = document.createElement("button");
                 button.className = "keyboard-button";
                 button.textContent = key;
-                button.style.backgroundColor = keyboard[key] || colors.wordleDefault;
+                button.style.backgroundColor =
+                    keyboard[key] || colors.wordleDefault;
                 button.onclick = () => handleKeyPress(key);
                 rowDiv.appendChild(button);
             });
@@ -177,6 +236,33 @@ document.addEventListener("DOMContentLoaded", function () {
         wordleKeyboard.appendChild(controlsDiv);
     }
 
-    renderWordleTable();
-    renderWordleKeyboard();
+   
+    
+
+
+    // window.showWordle = function () {
+    //     document.getElementById("home").style.display = "none";
+    //     document.getElementById("wordle").style.display = "block";
+
+    //     renderWordleTable();
+    //     renderWordleKeyboard();
+
+    //     fetch("/group7/nwl")
+    //         .then((response) => {
+    //             if (!response.ok) {
+    //                 throw new Error(`HTTP error! status: ${response.status}`);
+    //             }
+    //             return response.json();
+    //         })
+    //         .then((data) => {
+    //             gameId = data;
+    //         })
+    //         .catch((error) => {
+    //             console.error("Error fetching data:", error);
+    //         });
+    // };
+
+
+
+
 });
