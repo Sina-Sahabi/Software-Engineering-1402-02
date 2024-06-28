@@ -18,3 +18,6 @@ def newWordel(request):
     session = WordelGameSession(numberOfTries = 0, str = w.str)
     session.save()
     return HttpResponse(str(WordelGameSession.objects.count()))
+
+def wordelPlay(request):
+    
