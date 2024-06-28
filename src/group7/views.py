@@ -31,7 +31,7 @@ def redirect_view(request, path):
     )
 
     for key, value in response.headers.items():
-        if key.lower() != 'transfer-encoding':  # Skip transfer-encoding to avoid issues
+        if key.lower() != 'transfer-encoding':
             django_response[key] = value
 
     return django_response
