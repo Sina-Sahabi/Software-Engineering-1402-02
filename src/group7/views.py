@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
+from group7.models import *
+import random
 
 def home(request):
-	template = loader.get_template('home.html')
+	template = loader.get_template('index.html')
 	return HttpResponse(template.render())
 
 def test(request):
@@ -11,5 +13,8 @@ def test(request):
     return HttpResponse(template.render())
 
 def newWordel(request):
-    template = loader.get_template('??.html')
-    return HttpResponse(template.render())
+    items = list(Word.objects.all())
+    w = random.choice(items)
+    session = WordelGameSession(numberOfTries = 0, str = w.str)
+    session.save()
+    return HttpResponse(str(WordelGameSession.objects.count()))
