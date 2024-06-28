@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
                 <div class="grid-item">
                     <div class="image-button" onclick="showWordle()">
-                        <span class="image-src" style="background-image: url('src/assets/Wordle_logo.svg.png');"></span>
+                        <span class="image-src"></span>
                         <span class="image-backdrop"></span>
                         <span class="image">
                             <span class="typography">Wordle</span>
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
                 <div class="grid-item">
                     <div class="image-button">
-                        <span class="image-src" style="background-image: url('src/assets/Hangman.png');"></span>
+                        <span class="image-src" ></span>
                         <span class="image-backdrop"></span>
                         <span class="image">
                             <span class="typography">Hangman</span>
