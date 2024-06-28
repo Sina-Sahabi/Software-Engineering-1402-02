@@ -11,6 +11,5 @@ def test(request):
     return HttpResponse(template.render())
 
 def newWordel(request):
-    if request.method=='GET':
-        template = loader.get_template('??.html')
-        return HttpResponse(template.render())
+    template = loader.get_template('??.html')
+    return HttpResponse(template.render())
