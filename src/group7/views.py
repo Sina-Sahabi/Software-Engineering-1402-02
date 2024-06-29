@@ -3,49 +3,76 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 
-# wordel/views.py
-
-from rest_framework import generics, status
-from rest_framework.response import Response
-from .models import Game, Guess
-from .serializers import GameSerializer, GuessSerializer
+from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from .models import Game, Word
 import random
 
-class GameCreateAPI(generics.CreateAPIView):
-    queryset = Game.objects.all()
-    serializer_class = GameSerializer
+def create_game(request):
+    words = Word.objects.all()
+    if not words.exists():
+        return JsonResponse({'error': 'No words available for the game'}, status=400)
+    target_word = random.choice(words).text
+    game = Game.objects.create(target_word=target_word)
+    return JsonResponse({'game_id': game.id})
 
-    def create(self, request, *args, **kwargs):
-        # Generate a random word of length 5 (you may need to adjust this based on your word list)
-        word_to_guess = ''.join(random.choices('abcdefghijklmnopqrstuvwxyz', k=5))
-        game = Game.objects.create(word_to_guess=word_to_guess)
-        serializer = self.get_serializer(game)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+def get_game(request, game_id):
+    game = get_object_or_404(Game, id=game_id)
+    return JsonResponse({
+        'target_word': game.target_word,
+        'guesses': game.guesses,
+        'is_active': game.is_active
+    })
 
-# class GuessCreateAPI(generics.CreateAPIView):
-#     queryset = Guess.objects.all()
-#     serializer_class = GuessSerializer
+@require_POST
+def make_guess(request, game_id):
+    game = get_object_or_404(Game, id=game_id)
+    if not game.is_active:
+        return JsonResponse({'error': 'Game is not active'}, status=400)
+    
+    guess = request.POST.get('guess')
+    if len(guess) != 5:
+        return JsonResponse({'error': 'Guess must be a 5-letter word'}, status=400)
+    
+    feedback = []
+    for i, char in enumerate(guess):
+        if char == game.target_word[i]:
+            feedback.append('correct')
+        elif char in game.target_word:
+            feedback.append('present')
+        else:
+            feedback.append('notIn')
+    
+    game.guesses.append({'guess': guess, 'feedback': feedback})
+    if guess == game.target_word:
+        game.is_active = False
+    elif len(game.guesses) >= 6:
+        game.is_active = False
+    
+    game.save()
+    return JsonResponse({'feedback': feedback, 'is_active': game.is_active})
 
-#     def create(self, request, *args, **kwargs):
-#         game_id = request.data.get('game_id')
-#         guessed_word = request.data.get('guessed_word').lower()  # Assuming guesses are case insensitive
-
-#         try:
-#             game = Game.objects.get(pk=game_id)
-#         except Game.DoesNotExist:
-#             return Response({'error': 'Game not found'}, status=status.HTTP_404_NOT_FOUND)
-
-#         if len(guessed_word) != 5:
-#             return Response({'error': 'Guessed word must be of length 5'}, status=status.HTTP_400_BAD_REQUEST)
-
-#         is_correct = guessed_word == game.word_to_guess.lower()
-#         guess = Guess.objects.create(game=game, guessed_word=guessed_word, is_correct=is_correct)
-#         serializer = self.get_serializer(guess)
-#         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
+@require_POST
+def add_word(request):
+    word = request.POST.get('word')
+    if len(word) != 5:
+        return JsonResponse({'error': 'Word must be 5 letters long'}, status=400)
+    
+    if Word.objects.filter(text=word).exists():
+        return JsonResponse({'error': 'Word already exists'}, status=400)
+    
+    Word.objects.create(text=word)
+    return JsonResponse({'message': 'Word added successfully'})
 
 def index(request):
     return render(request, 'index.html')
+
+def wordel_page(request):
+    return render(request, '???.html')
+
+def hangman_page(request):
+    return render(request, '???.html')
 
 @csrf_exempt #! did not work properly
 def redirect_view(request, path):

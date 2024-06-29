@@ -52,7 +52,7 @@ Error generating stack: `+o.message+`
           bg-gradient-to-r 
           p-[6px] 
           from-[#6EE7B7] via-[#3B82F6] to-[#9333EA]"
-          `,src:"./src/assets/photo.png"})}),R.jsxs("div",{className:"avatar__texts text-center justify-between",children:[R.jsx("div",{className:"text__title",children:R.jsx("h1",{children:e.nickname})}),R.jsx("div",{className:"text__name mt-3",children:R.jsx("h2",{children:e.realname})}),R.jsx("div",{className:"text__follow",children:R.jsx("button",{className:"w-80 mt-5",children:"Follow"})})]})]})}function $e(e){return R.jsx("div",{className:`
+          `,src:"{% static assets/photo.png %}"})}),R.jsxs("div",{className:"avatar__texts text-center justify-between",children:[R.jsx("div",{className:"text__title",children:R.jsx("h1",{children:e.nickname})}),R.jsx("div",{className:"text__name mt-3",children:R.jsx("h2",{children:e.realname})}),R.jsx("div",{className:"text__follow",children:R.jsx("button",{className:"w-80 mt-5",children:"Follow"})})]})]})}function $e(e){return R.jsx("div",{className:`
       bg-white 
       rounded-lg 
       shadow-md 
