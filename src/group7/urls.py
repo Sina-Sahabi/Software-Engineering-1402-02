@@ -8,6 +8,9 @@ urlpatterns = [
     path('wordel/guess/<int:game_id>/', views.make_guess, name='make_guess'),
     path('wordel/add_word/', views.add_word, name='add_word'),
     # path('api/game/', GameCreateAPI.as_view(), name='game-create'),
+    path('hangman/create/', views.create_game, name='create_game'),
+    path('hangman/guess/<int:game_id>/', views.make_guess_h, name='make_guess_h'),
+
     # path('api/guess/', GuessCreateAPI.as_view(), name='guess-create'),
     # path('<path:path>', index, name='index'),
     path('', index, name='index'),
