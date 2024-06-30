@@ -23,6 +23,7 @@ const initialKeyboard = "QWERTYUIOPASDFGHJKLZXCVBNM"
 export function Hangman() {
     const [attempt, setAttempt] = useState(0);
     const [finish, setFinish] = useState(false);
+    const [lock, setLock] = useState(false);
     const [currLetter, setCurLetter] = useState(" ");
     const [keyboard, setKeyboard] = useState(initialKeyboard);
     const [firstClick, setFirstCLick] = useState(0);
@@ -31,7 +32,6 @@ export function Hangman() {
 
     useEffect(() => {
         if (firstClick === 1 && gameId !== null) {
-            console.log("om");
             submitGuess(gameId, currLetter);
         }
     }, [gameId]);
@@ -39,9 +39,6 @@ export function Hangman() {
     useEffect(() => {
         if (!guess.includes(" ")) {
             setFinish(true);
-        }
-        if (attempt === 6) {
-            alert("Game Over!");
         }
     }, []);
 
@@ -65,7 +62,7 @@ export function Hangman() {
 
     const handleKeyPress = async (letter) => {
         setCurLetter(letter);
-        if (attempt <= MAX_ATTEMPTS) {
+        if (attempt <= MAX_ATTEMPTS && !lock) {
             if (firstClick === 0) {
                 setFirstCLick(1);
                 await handleFirstClick();
@@ -102,6 +99,10 @@ export function Hangman() {
             if (result.length === 0) {
                 setAttempt(attempt + 1);
                 console.log(attempt);
+                if (attempt === 5) {
+                    alert("Game Over!");
+                    setLock(true);
+                }
 
                 setKeyboard({
                     ...keyboard,
@@ -119,7 +120,6 @@ export function Hangman() {
                 });
                 setGuess(newGuess);
             }
-            
         } catch (error) {
             console.error("Failed to submit guess:", error);
         }
