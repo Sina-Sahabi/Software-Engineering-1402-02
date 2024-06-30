@@ -6,7 +6,14 @@
     <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Learing with Gaming</title>
-    <script type="module" crossorigin src="{% static 'assets/index-BBvzZRkW.js' %}"></script>
+    <script>
+      const staticFiles = {
+          image1: "{% static 'assets/Wordle_logo.svg.png' %}",
+          image2: "{% static 'assets/Hangman.png' %}",
+          // Add more static files as needed
+      };
+    </script>
+    <script type="module" crossorigin src="{% static 'assets/index-B1gKejzO.js' %}"></script>
     <link rel="stylesheet" crossorigin href="{% static 'assets/index-DBawuBTR.css' %}">
   </head>
   <body style="background-color: #FBFAFF;">
