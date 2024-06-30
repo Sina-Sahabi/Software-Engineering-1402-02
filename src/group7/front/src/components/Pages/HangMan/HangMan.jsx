@@ -40,7 +40,14 @@ export function Hangman() {
         if (!guess.includes(" ")) {
             setFinish(true);
         }
-    }, []);
+    }, [guess]);
+
+    useEffect(() => {
+        if (attempt === 6) {
+            alert("Game Over!");
+            setLock(true);
+        }
+    }, [attempt]);
 
     const handleFirstClick = async () => {
         try {
@@ -99,10 +106,6 @@ export function Hangman() {
             if (result.length === 0) {
                 setAttempt(attempt + 1);
                 console.log(attempt);
-                if (attempt === 5) {
-                    alert("Game Over!");
-                    setLock(true);
-                }
 
                 setKeyboard({
                     ...keyboard,
