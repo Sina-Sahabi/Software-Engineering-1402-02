@@ -18,6 +18,7 @@ def create_game(request):
         return JsonResponse({'game_id': game.id})
         # return JsonResponse({'error': 'No words available for the game'}, status=400)
     target_word = random.choice(words).text
+    print(">><< ", target_word)
     game = Game.objects.create(target_word=target_word)
     return JsonResponse({'game_id': game.id})
 
@@ -46,7 +47,9 @@ def make_guess(request, game_id):
     if len(str(guess)) != 5:
         return JsonResponse({'error': 'Guess must be a 5-letter word'}, status=400)
     feedback = []
-    target = list(game.target_word)
+    target = list((game.target_word).upper())
+
+    print("... ", target, guess)
 
     for i, char in enumerate(guess):
         if char == target[i]:
@@ -59,12 +62,13 @@ def make_guess(request, game_id):
             feedback.append('notIn')
 
     game.guesses.append({'guess': guess, 'feedback': feedback})
-    if guess == game.target_word:
+    if (guess).upper() == (game.target_word).upper():
         game.is_active = False
     elif len(game.guesses) >= 6:
         game.is_active = False
 
     game.save()
+    print("~~~ ", game.is_active)
 
     return JsonResponse({'feedback': feedback, 'is_active': game.is_active})
 
