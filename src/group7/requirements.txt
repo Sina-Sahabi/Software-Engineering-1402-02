@@ -1,0 +1,10 @@
+# same as whole system
+Django==4.1.3
+djangorestframework
+pyyaml
+requests
+django-cors-headers
+pillow
+django-storages
+boto3
+mysql-connector-python
