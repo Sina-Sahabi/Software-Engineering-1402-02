@@ -79,7 +79,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'english_website.urls'
-CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOW_ALL_ORIGINS = True
 
 TEMPLATES = [
     {
@@ -163,25 +163,25 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',
-    # Add other origins if needed
-]
-CORS_ALLOW_METHODS = [
-    'DELETE',
-    'GET',
-    'OPTIONS',
-    'PATCH',
-    'POST',
-    'PUT',
-]
+# CORS_ALLOWED_ORIGINS = [
+#     'http://localhost:5173',
+#     # Add other origins if needed
+# ]
+# CORS_ALLOW_METHODS = [
+#     'DELETE',
+#     'GET',
+#     'OPTIONS',
+#     'PATCH',
+#     'POST',
+#     'PUT',
+# ]
 
-CORS_ALLOW_HEADERS = [
-    'Accept',
-    'Accept-Encoding',
-    'Authorization',
-    'Content-Type',
-    'Origin',
-    'X-CSRFToken',  # Include CSRF token header if applicable
-]
-CSRF_TRUSTED_ORIGINS = ['https://localhost:5173', 'https://*.127.0.0.1']
+# CORS_ALLOW_HEADERS = [
+#     'Accept',
+#     'Accept-Encoding',
+#     'Authorization',
+#     'Content-Type',
+#     'Origin',
+#     'X-CSRFToken',  # Include CSRF token header if applicable
+# ]
+# CSRF_TRUSTED_ORIGINS = ['https://localhost:5173', 'https://*.127.0.0.1']
