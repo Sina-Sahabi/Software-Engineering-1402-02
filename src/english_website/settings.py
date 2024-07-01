@@ -33,10 +33,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-# sepehr
-CSRF_COOKIE_SECURE = False
-CSRF_COOKIE_HTTPONLY = False
-SESSION_COOKIE_SECURE = False
 
 # Application definition
 
@@ -64,7 +60,7 @@ INSTALLED_APPS = [
     'group15',
     'group16',
     'registration',
-    'corsheaders',
+
 ]
 
 MIDDLEWARE = [
@@ -103,12 +99,12 @@ WSGI_APPLICATION = 'english_website.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
+#DATABASES = {
 #    'default': {
 #        'ENGINE': 'django.db.backends.sqlite3',
 #        'NAME': BASE_DIR / 'db.sqlite3',
 #    }
-# }
+#}
 
 
 DATABASES = {
@@ -163,25 +159,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',
-    # Add other origins if needed
-]
-CORS_ALLOW_METHODS = [
-    'DELETE',
-    'GET',
-    'OPTIONS',
-    'PATCH',
-    'POST',
-    'PUT',
-]
-
-CORS_ALLOW_HEADERS = [
-    'Accept',
-    'Accept-Encoding',
-    'Authorization',
-    'Content-Type',
-    'Origin',
-    'X-CSRFToken',  # Include CSRF token header if applicable
-]
-CSRF_TRUSTED_ORIGINS = ['https://localhost:5173', 'https://*.127.0.0.1']
