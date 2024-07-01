@@ -10,7 +10,7 @@ We used django as the backend for this service. The backend is a REST API that i
   - [Hangman](#hangman)
 - [Contribution](#contribution)
 - [License](#license)
-- [Contact](#contact)
+- [Contact Info](#contact-info)
 
 ## Installation
 
@@ -52,7 +52,7 @@ Contributions are welcome! Please contact us for guidelines on how to contribute
 
 This project is free to use/copy/modify. Project is not guaranteed. Contact us for more details.
 
-## contact
+## Contact Info
 
 - **Name:** Sina , Mahya
 - **Email:** [Mahya](mailto:beheshtimahya11@gmail.com) , [Sina](mailto:sina.sahabi.2s@gmail.com)
